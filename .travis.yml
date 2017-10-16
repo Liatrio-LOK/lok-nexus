@@ -16,7 +16,7 @@ script:
   - yamllint deployments/ services/
   - docker ps | grep -q lok-nexus
   - docker exec lok-nexus curl -s --retry 10 --retry-delay 15 -u admin:admin123 http://localhost:8081/service/metrics/ping | grep -q pong
-
+ 
 notifications:
   slack:
     rooms:
