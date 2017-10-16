@@ -9,13 +9,13 @@ install:
   - pip install yamllint
   - docker pull lukasmartinelli/hadolint
   - docker build -t lok-nexus .
-  - docker run -d --net="host" -p 8081:8081 --restart=no --name lok-nexus lok-nexus; sleep 150
+  - docker run -d --net="host" -p 8081:8081 --restart=no --name lok-nexus lok-nexus; sleep 10
 
 script:
   - docker run --rm -i lukasmartinelli/hadolint < Dockerfile
   - yamllint deployments/ services/
   - docker ps | grep -q lok-nexus
-  - docker exec lok-nexus curl -s -u admin:admin123 http://localhost:8081/service/metrics/ping | grep -q pong
+  - docker exec lok-nexus curl -s --retry-connrefused --retry 20 --retry-delay 10 -u admin:admin123 http://localhost:8081/service/metrics/ping | grep -q pong
 
 notifications:
   slack:
