@@ -13,6 +13,8 @@ before_install:
   - make
   - sudo make install
   - sudo ldconfig
+  - ls
+  - curl --version
 
 install:
   - pip install yamllint
@@ -24,6 +26,7 @@ script:
   - docker run --rm -i lukasmartinelli/hadolint < Dockerfile
   - yamllint deployments/ services/
   - docker ps | grep -q lok-nexus
+  - curl --retry-connrefused --retry 20 --retry-delay 10 -u admin:admin123 http://localhost:8081/service/metrics/ping
   - curl -s --retry-connrefused --retry 20 --retry-delay 10 -u admin:admin123 http://localhost:8081/service/metrics/ping | grep -q pong
 
 notifications:
