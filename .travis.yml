@@ -5,12 +5,12 @@ language: python
 services:
   - docker
 
-before_install: #install curl 7.54.0 for use of --retry-connrefused
+before_install:
   - sudo apt-get remove libcurl3
   - wget https://curl.haxx.se/download/curl-7.54.0.tar.bz2
   - tar -xvjf curl-7.54.0.tar.bz2
   - mv curl-7.54.0/* . && rmdir curl-7.54.0
-  - ./configure --prefix=/usr
+  - "./configure --prefix=/usr"
   - make
   - sudo make install
   - sudo ldconfig
@@ -30,7 +30,7 @@ script:
 notifications:
   slack:
     rooms:
-      - secure: "jh6tG32VWctPJBZm1Q5x7AZ/HAbPgpM217rBweBaJzGGgQ86ea7Vg4nEH22o0qQJvQ3cf0nw/8IiUxOCTvGBrVxFfyCyKDmHQ5cDQwZeZlxFPl+uLvhxDOCMa7Rmp5f8xshTlHvSp9wMlzz/O78snLzBz0PDM6ygPa0vgXZxTMXOE9QWWRaTsUlxPMiQWDrhzEtO5qh8lTjbzt5jagMiRnNAxcjWLyd5QtxAhpT1pXe7EWdv/prD7dcn0EZKF2MxJDHUaHlxLD9rQgur0yZaaC6PosdWN5RUmLSi8IzgPTGTXfpLzt4KkFM8DVQwrUBeOHKKvBac68sOh5+B8/1scM033PGa1ER/QGZsi6rvZqcFnCSGaCOkYy214F1plMoq7S4iAtznMQkp51pa0tPA3x5vGSa/uMheS4cSEvyPRjIoucqxDn7EcqZljrWOJX0MIH9X18cWUwaoExr4pHQ3wio/9pSHAO11ERei4AGijKbGrb8tt8mUCUzCsZD4jMqTKI51uy0p5OEFvtsQN1UGbyABlsslKNQ2MUQXD4VBaCCP7+0zVsqLavUnIu3We4yt8fZoWMIFeL+nsCNVtYhBiq/8QzQuGAg2Eosivl9zaqqYJRs9J3MKBuXTwVC1KbRw12DL4VoKrdFRc8izMcdpAfaXBX74WtrI89TcjFs2J0I="
+      - secure: SsjS2RCVKlhkb/uSxMRhxp2DnQBTqg8lYJ9yXy1rFAaWy/BQLeYeWZjgqJX2Mc/AhdfQ+glzu4UPzowTJCHMQw8ka4sVy5+qfVYTpd7SVovQW58cC7LTDrPJXSFQylX82iMzl9928rxuGOMeuVGbMnHUG8X0srW+NTI3d1Tdp5i9jNDtA/CQzwHDSMXTYqsFYFrpDzLXleDxp1PcxGUkhfQBf8aHxVCvzRfD+Qt7GBFV+X3WS3y162dBCvOlcsWpEqYguMlAEcXNWIRAWfxOUD1Q7ubjcUPljiD5Gj0TDVdXhjX7gaKoUEdJOZyauXYEG/H2XLMCtMdbTD7REyMigA/4eo2O6r+G3vEN9LxTtNMLK0F8z/5Ie7EbaqT7wrU1hECDDKj7/I/6SWyqSHoHggQATEZmIUdw/jZbuKsh33TnaRPcI3/HES4PddJJOBLKZPtKS3zbQRHYqr09/as9eJlN98fSSfDiZ9E0w/R4nSbas8cAwaxBDgEILpxY3EiUFPBl1urtdAW6k+dMtIbQcr22AY9CtalPxcoJJcin/OOnGV106YHpCkD/epCgrCTa7JVvtF6JZ+k7ugXzxE9d3r/HH1BRkANQGtpZ9eydhRUi8psvs5f9VfTnf6SRL7AkfsWfvCSOU+XFgEBLVmKkoG8EOMiXDF4A5ByvBX/D/xA=
     on_success: change # default: always
     on_failure: change # default: always
     on_pull_requests: true # default: true
