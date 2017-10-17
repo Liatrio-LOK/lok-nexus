@@ -6,8 +6,13 @@ services:
   - docker
 
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y curl
+  - wget https://curl.haxx.se/download/curl-7.54.0.tar.bz2
+  - tar -xvjf curl-7.54.0.tar.bz2
+  - mv curl-7.54.0/* . && rmdir curl-7.54.0
+  - ./configure --prefix=/usr
+  - make
+  - sudo make install
+  - sudo ldconfig
 
 install:
   - pip install yamllint
