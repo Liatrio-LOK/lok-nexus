@@ -5,7 +5,8 @@ language: python
 services:
   - docker
 
-before_install:
+before_install: #install curl 7.54.0 for use of --retry-connrefused
+  - sudo apt-get remove libcurl3
   - wget https://curl.haxx.se/download/curl-7.54.0.tar.bz2
   - tar -xvjf curl-7.54.0.tar.bz2
   - mv curl-7.54.0/* . && rmdir curl-7.54.0
@@ -13,8 +14,6 @@ before_install:
   - make
   - sudo make install
   - sudo ldconfig
-  - ls
-  - curl --version
 
 install:
   - pip install yamllint
