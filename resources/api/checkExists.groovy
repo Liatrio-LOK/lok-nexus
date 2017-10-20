@@ -15,9 +15,10 @@ class Account {
 }
 //Create the admin role
 def anonRole = ['nx-anonymous']
+def adminRole = ['nx-admin']
 //We can create a list of users we want to add.
 def newAdminUserList = [
-    new Account('jane.doe', 'jane', 'doe', 'jane.doe@example.com', true, 'changeme321', anonRole),
+    new Account('jane.doe', 'jane', 'doe', 'jane.doe@example.com', true, 'changme231', adminRole),
     new Account('joe.doe', 'joe', 'doe', 'joe.doe@example.com', true, 'changme231', anonRole)
 ]
 //Query db for all users
