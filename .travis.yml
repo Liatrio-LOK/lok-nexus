@@ -1,0 +1,37 @@
+sudo: required
+
+language: python
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get remove libcurl3
+  - wget https://curl.haxx.se/download/curl-7.54.0.tar.bz2
+  - tar -xvjf curl-7.54.0.tar.bz2
+  - mv curl-7.54.0/* . && rmdir curl-7.54.0
+  - "./configure --prefix=/usr"
+  - make
+  - sudo make install
+  - sudo ldconfig
+
+install:
+  - pip install yamllint
+  - docker pull lukasmartinelli/hadolint
+  - docker build -t lok-nexus .
+  - docker run -d --net="host" -p 8081:8081 --restart=no --name lok-nexus lok-nexus; sleep 10
+
+script:
+  - docker run --rm -i lukasmartinelli/hadolint < Dockerfile
+  - yamllint deployments/ services/
+  - docker ps | grep -q lok-nexus
+  - curl -s --retry-connrefused --retry 20 --retry-delay 10 -u admin:admin123 http://localhost:8081/service/metrics/ping | grep -q pong
+
+notifications:
+  slack:
+    rooms:
+      - secure: SsjS2RCVKlhkb/uSxMRhxp2DnQBTqg8lYJ9yXy1rFAaWy/BQLeYeWZjgqJX2Mc/AhdfQ+glzu4UPzowTJCHMQw8ka4sVy5+qfVYTpd7SVovQW58cC7LTDrPJXSFQylX82iMzl9928rxuGOMeuVGbMnHUG8X0srW+NTI3d1Tdp5i9jNDtA/CQzwHDSMXTYqsFYFrpDzLXleDxp1PcxGUkhfQBf8aHxVCvzRfD+Qt7GBFV+X3WS3y162dBCvOlcsWpEqYguMlAEcXNWIRAWfxOUD1Q7ubjcUPljiD5Gj0TDVdXhjX7gaKoUEdJOZyauXYEG/H2XLMCtMdbTD7REyMigA/4eo2O6r+G3vEN9LxTtNMLK0F8z/5Ie7EbaqT7wrU1hECDDKj7/I/6SWyqSHoHggQATEZmIUdw/jZbuKsh33TnaRPcI3/HES4PddJJOBLKZPtKS3zbQRHYqr09/as9eJlN98fSSfDiZ9E0w/R4nSbas8cAwaxBDgEILpxY3EiUFPBl1urtdAW6k+dMtIbQcr22AY9CtalPxcoJJcin/OOnGV106YHpCkD/epCgrCTa7JVvtF6JZ+k7ugXzxE9d3r/HH1BRkANQGtpZ9eydhRUi8psvs5f9VfTnf6SRL7AkfsWfvCSOU+XFgEBLVmKkoG8EOMiXDF4A5ByvBX/D/xA=
+    on_success: change # default: always
+    on_failure: change # default: always
+    on_pull_requests: true # default: true
+

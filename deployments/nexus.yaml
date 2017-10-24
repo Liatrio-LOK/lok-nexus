@@ -16,7 +16,7 @@ spec:
         app: nexus
     spec:
       containers:
-      - name: nexus
-        image: sonatype/nexus3:3.6.0
-        ports:
-        - containerPort: 8081
+        - name: nexus
+          image: sonatype/nexus3:3.6.0
+          ports:
+            - containerPort: 8081
