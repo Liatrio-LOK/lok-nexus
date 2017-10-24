@@ -1,5 +1,16 @@
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 import org.sonatype.nexus.security.user.UserSearchCriteria
+
+//Check map object and populate with json arguments
+def jsonSlurper = new JsonSlurper()
+def object = jsonSlurper.parseText(args)
+//grab individual fields from map object to create new user
+def username = object.name
+def password = object.password
+def fname = object.fname
+def lname = object.lname
+def email = object.email
 
 class Account {
     Account(String id, String fname, String lname, String email, Boolean active , String password, role) {
@@ -15,12 +26,10 @@ class Account {
 }
 
 //Create the admin role
-def anonRole = ['nx-anonymous']
 def adminRole = ['nx-admin']
 //We can create a list of users we want to add.
 def newAdminUserList = [
-    new Account('jane.doe', 'jane', 'doe', 'jane.doe@example.com', true, 'changme231', anonRole),
-    new Account('joe.doe', 'joe', 'doe', 'joe.doe@example.com', true, 'changme231', anonRole)
+    new Account("$username", "$fname", "$lname", "$email", true, "$password", adminRole),
 ]
 //Query db for all users
 def allUsers = security.securitySystem.searchUsers(new UserSearchCriteria())
