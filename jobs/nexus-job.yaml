@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: nexus-admin
+spec:
+  template:
+    metadata:
+      name: nexus-admin
+    spec:
+      containers:
+      - name: nexus-admin
+        image: liatrio/lok-nexus-admin:0.1.0
+        env:
+          - name: NEXUS_ADMIN_USERNAME
+            valueFrom:
+              configMapKeyRef:
+                name: nexus-credentials
+                key: user.name
+          - name: NEXUS_ADMIN_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: nexus-credentials
+                key: user.password
+          - name: NEXUS_ADMIN_EMAIL
+            valueFrom:
+              configMapKeyRef:
+                name: nexus-credentials
+                key: user.email
+          - name: NEXUS_ADMIN_FNAME
+            valueFrom:
+              configMapKeyRef:
+                name: nexus-credentials
+                key: user.fname
+          - name: NEXUS_ADMIN_LNAME
+            valueFrom:
+              configMapKeyRef:
+                name: nexus-credentials
+                key: user.lname
+      restartPolicy: Never
+        
