@@ -5,7 +5,7 @@
 The `nexus-credentials` configMap is intended to be created from the console using the following command:
 
 ```
-kubectl create configmap jenkins-credentials --from-literal=user.name=<username> --from-literal=user.password=<password> ...
+kubectl create configmap nexus-credentials --from-literal=user.name=<username> --from-literal=user.password=<password> --from-literal=user.email=<email> --from-literal=user.fname=<first_name> --from-literal=user.lname=<last_name>
 ```
 
 You have to create user.name, user.password, user.email, user.fname, user.lname there is a quick script in /jobs/ that will do this automatically.
