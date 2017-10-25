@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
       - name: nexus-admin
-        image: nexus-admin:0.0.1
+        image: liatrio/lok-nexus-admin:0.1.0
         env:
           - name: NEXUS_ADMIN_USERNAME
             valueFrom:
